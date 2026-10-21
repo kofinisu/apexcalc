@@ -1,0 +1,10 @@
+#matrixPanel{position:absolute;inset:0;display:none;place-items:center;padding:24px;background:radial-gradient(1200px 600px at 50% 0%,#0e1a30,#070b14 70%);}
+#matrixPanel.active{display:grid}
+.matrix-card{width:min(760px,96%);max-height:86%;overflow:auto;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,#101a2e,#0b1322);padding:18px;box-shadow:0 30px 80px #00000055;}
+.matrix-card h3{margin:0 0 6px;font-size:15px}
+.matrix-card p{margin:0 0 14px;color:var(--muted);font-size:12px;line-height:1.5}
+.matrix-card code{font-family:var(--mono);font-size:11.5px;background:#07101e;border:1px solid #1c2a45;border-radius:4px;padding:1px 5px;color:#a5f3fc;}
+#matrixInput{width:100%;min-height:90px;resize:vertical;background:#070d19;border:1px solid #223252;border-radius:10px;padding:11px;font-family:var(--mono);font-size:13px;outline:none;}
+#matrixInput:focus{border-color:#22d3ee88}
+.matrix-actions{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+#matrixOutput{min-height:54px;background:#070d19;border:1px solid #1c2a45;border-radius:10px;padding:12px;font-family:var(--mono);font-size:13px;white-space:pre-wrap;color:#d9e7fb;}

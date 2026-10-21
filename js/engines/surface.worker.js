@@ -1,0 +1,1 @@
+self.addEventListener('message', e => { if (e.data && e.data.type === 'ping') self.postMessage({ type: 'pong' }); });

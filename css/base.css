@@ -1,0 +1,27 @@
+:root{
+  --bg:#070b14; --panel:#0d1424; --panel-2:#111a2e; --line:#1e2a44;
+  --text:#e6edf7; --muted:#8595b0; --accent:#22d3ee; --accent-2:#a78bfa;
+  --danger:#fb7185; --ok:#34d399; --sidebar-w:360px;
+  --font: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, Inter, Arial, sans-serif;
+  --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--text);font-family:var(--font);overflow:hidden;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;}
+button,input,select,textarea{font:inherit;color:inherit}
+button{cursor:pointer}
+.btn{border:1px solid var(--line);background:#111a2e;color:var(--text);border-radius:8px;padding:7px 10px;font-size:12px;font-weight:700;transition:.15s;white-space:nowrap;}
+.btn:hover{background:#182541;border-color:#2b4068}
+.btn.primary{background:linear-gradient(180deg,#0e7490,#155e75);border-color:#22d3ee55;color:#ecfeff}
+.btn.primary:hover{background:linear-gradient(180deg,#0891b2,#0e7490)}
+.btn.danger{color:#fecdd3;border-color:#fb718544;background:#2a0f18}
+.btn.tiny{padding:4px 7px;font-size:11px;border-radius:7px}
+.ghost-btn{border:0;background:transparent;color:var(--muted);border-radius:7px;width:26px;height:26px;display:grid;place-items:center;font-size:13px;padding:0;}
+.ghost-btn:hover{background:#1a2740;color:#fff}
+.spacer{flex:1}
+kbd{font-family:var(--mono);font-size:10.5px;background:#07101e;border:1px solid #2a3d61;border-bottom-color:#0b1220;border-radius:5px;padding:3px 6px;color:#dbe7f8;}
+::-webkit-scrollbar{width:9px;height:9px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:#20304d;border-radius:9px;border:2px solid #080d17}
+::-webkit-scrollbar-thumb:hover{background:#2c436a}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}

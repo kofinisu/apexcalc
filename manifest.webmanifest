@@ -1,0 +1,25 @@
+{
+  "name": "ApexCalc — 2D/3D Graphing & Scientific Workstation",
+  "short_name": "ApexCalc",
+  "description": "Desktop-class 2D/3D graphing, complex domain coloring, vector fields, matrix algebra, and step-by-step auto solver.",
+  "id": "/apexcalc/",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "display_override": ["standalone", "minimal-ui"],
+  "orientation": "any",
+  "background_color": "#070b14",
+  "theme_color": "#070b14",
+  "categories": ["education", "productivity", "utilities"],
+  "icons": [
+    { "src": "assets/icons/icon-192.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "assets/icons/icon-512.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" },
+    { "src": "assets/icons/maskable-512.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "maskable" }
+  ],
+  "file_handlers": [
+    {
+      "action": "./",
+      "accept": { "application/x-apexcalc+json": [".apexcalc"] }
+    }
+  ]
+}

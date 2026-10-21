@@ -1,0 +1,20 @@
+:root{
+  --bg:#000000; --panel:#0a0a0a; --panel-2:#111111; --line:#ffffff;
+  --text:#ffffff; --muted:#e0e0e0; --accent:#00ffff; --accent-2:#ffff00;
+}
+body{background:#000;color:#fff}
+#topbar,#sidebar,#statusbar{background:#000;border-color:#fff}
+.tab{border:1px solid transparent}
+.tab:hover{background:#1a1a1a;border-color:#fff}
+.tab.active{background:#00ffff;color:#000}
+.btn{border:2px solid #fff;color:#fff;background:#000}
+.btn:hover{background:#1a1a1a}
+.btn.primary{background:#00ffff;color:#000;border-color:#00ffff}
+.expr-card,.expr-type,.expr-input,.side-panels,details.panel{background:#000;border-color:#fff;color:#fff}
+.expr-card.selected{border-color:#00ffff;border-width:2px}
+#c2d,#workspace{background:#000}
+.hint span{background:#000;border-color:#fff;color:#fff}
+kbd{background:#000;border-color:#fff;color:#fff}
+.solver-pane,.solver-pane-head,.solver-section,.solver-answer{background:#000;border-color:#fff;color:#fff}
+#solverInput{background:#000;color:#fff;border-color:#fff}
+.help-card,.palette-card{background:#000;border-color:#fff;color:#fff}

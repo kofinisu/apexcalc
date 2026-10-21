@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#070b14">
+  <meta name="description" content="ApexCalc — desktop-class 2D/3D graphing and scientific workstation.">
+  <title>ApexCalc — 2D/3D Graphing & Scientific Workstation</title>
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="assets/icons/icon-192.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png">
+
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/topbar.css">
+  <link rel="stylesheet" href="css/sidebar.css">
+  <link rel="stylesheet" href="css/workspace.css">
+  <link rel="stylesheet" href="css/solver.css">
+  <link rel="stylesheet" href="css/matrix.css">
+  <link rel="stylesheet" href="css/help.css">
+  <link rel="stylesheet" href="css/themes/dark.css" id="theme-stylesheet">
+</head>
+<body>
+<div id="app">
+
+  <header id="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true"></div>
+      <span class="brand-text">ApexCalc <small>WORKSTATION</small></span>
+    </div>
+    <div class="spacer"></div>
+    <nav class="tabs" aria-label="Workspace modes">
+      <button class="tab active" data-tab="2d">2D</button>
+      <button class="tab" data-tab="3d">3D</button>
+      <button class="tab" data-tab="complex">COMPLEX</button>
+      <button class="tab" data-tab="matrix">MATRIX</button>
+      <button class="tab" data-tab="solver">SOLVE</button>
+    </nav>
+    <div class="spacer"></div>
+    <div class="ctrl" title="Performance tier">
+      <span>GPU</span>
+      <select id="qualitySelect">
+        <option value="high">High Quality</option>
+        <option value="balanced" selected>Balanced</option>
+        <option value="performance">Performance</option>
+      </select>
+    </div>
+    <button class="icon-btn" id="themeBtn" title="Cycle theme">◐</button>
+    <button class="icon-btn" id="paletteBtn" title="Command palette (Ctrl+K)">⌘</button>
+    <button class="icon-btn" id="helpBtn" title="Keyboard shortcuts (?)">?</button>
+    <button class="icon-btn" id="mobileSidebarBtn" title="Toggle expressions">☰</button>
+  </header>
+
+  <div id="main">
+    <aside id="sidebar" aria-label="Expression sidebar">
+      <div class="side-head">
+        <h2>Expressions</h2>
+        <span class="spacer"></span>
+        <button class="btn tiny" id="addExprBtn" title="Add expression">+ Add</button>
+        <button class="ghost-btn" id="undoBtn" title="Undo (Ctrl+Z)">↶</button>
+        <button class="ghost-btn" id="redoBtn" title="Redo (Ctrl+Y)">↷</button>
+      </div>
+      <div id="exprList"></div>
+      <div class="side-panels">
+        <details class="panel" open>
+          <summary>2D Tools</summary>
+          <div class="panel-body">
+            <div class="row"><label><input type="checkbox" id="showTangent"> Tangent line</label></div>
+            <div class="row"><label><input type="checkbox" id="showIntegral"> Integral shading</label></div>
+            <div class="row"><label><input type="checkbox" id="showExtrema"> Extrema markers</label></div>
+          </div>
+        </details>
+        <details class="panel">
+          <summary>3D Scene</summary>
+          <div class="panel-body">
+            <div class="row"><label><input type="checkbox" id="wireframeToggle"> Wireframe</label></div>
+            <div class="row"><label><input type="checkbox" id="axesToggle" checked> Axes & grid</label></div>
+            <div class="row"><label><input type="checkbox" id="autoRotateToggle"> Auto-rotate</label></div>
+            <div class="row">
+              <span>Projection</span>
+              <select id="projectionSelect" style="margin-left:auto;background:#0a1120;border:1px solid #1e2a44;border-radius:6px;padding:3px 5px;font-size:11px">
+                <option value="perspective">Perspective</option>
+                <option value="orthographic">Orthographic</option>
+              </select>
+            </div>
+            <div class="row"><span style="min-width:14px">X</span><input type="range" id="clipX" min="-5" max="5" step="0.05" value="5"><span class="val" id="clipXVal">5.00</span></div>
+            <div class="row"><span style="min-width:14px">Y</span><input type="range" id="clipY" min="-5" max="5" step="0.05" value="5"><span class="val" id="clipYVal">5.00</span></div>
+            <div class="row"><span style="min-width:14px">Z</span><input type="range" id="clipZ" min="-5" max="5" step="0.05" value="5"><span class="val" id="clipZVal">5.00</span></div>
+            <div class="row"><button class="btn tiny" id="reset3dBtn">Reset 3D view</button></div>
+          </div>
+        </details>
+        <details class="panel">
+          <summary>Variable Watcher</summary>
+          <div class="panel-body"><div id="varWatch"></div></div>
+        </details>
+      </div>
+    </aside>
+
+    <div id="resizeHandle" title="Drag to resize sidebar"></div>
+
+    <main id="workspace">
+      <section class="view active" id="view2d">
+        <canvas id="c2d" tabindex="0" aria-label="2D graphing canvas"></canvas>
+        <div class="overlay-cross" id="cross2d"></div>
+        <div class="hint">
+          <span>Wheel: zoom at cursor</span>
+          <span>Drag: pan</span>
+        </div>
+      </section>
+      <section class="view" id="view3d">
+        <div id="c3d" aria-label="3D WebGL canvas"></div>
+        <div class="hint">
+          <span>Orbit: drag</span>
+          <span>Zoom: wheel</span>
+          <span>Pan: right-drag</span>
+        </div>
+      </section>
+
+      <section class="view" id="viewSolver">
+        <div class="solver-wrap">
+          <div class="solver-pane">
+            <div class="solver-pane-head">
+              <h3>Auto Solver</h3><span class="spacer"></span>
+              <button class="btn tiny" id="solverClearBtn">Clear</button>
+            </div>
+            <div class="solver-body">
+              <textarea id="solverInput" spellcheck="false" placeholder="Type any equation, system, inequality, radical, complex expression or diamond puzzle…&#10;&#10;Examples:&#10;  2x + 3 = 7&#10;  x^2 - 5x + 6 = 0&#10;  x + y = 5&#10;  2x - y = 1&#10;  2x + 1 > 5&#10;  sqrt(72)&#10;  (3+2i)*(1-i)&#10;  p=12, s=7"></textarea>
+              <div class="solver-templates">
+                <button class="btn tiny" data-solve-template="2x + 3 = 7">Linear</button>
+                <button class="btn tiny" data-solve-template="x^2 - 5x + 6 = 0">Quadratic</button>
+                <button class="btn tiny" data-solve-template="x + y = 5&#10;2x - y = 1">2×2 System</button>
+                <button class="btn tiny" data-solve-template="x + y + z = 6&#10;2x - y = 1&#10;y + 2z = 5">3×3 System</button>
+                <button class="btn tiny" data-solve-template="2x + 1 > 5">Inequality</button>
+                <button class="btn tiny" data-solve-template="sqrt(72)">Radical</button>
+                <button class="btn tiny" data-solve-template="(3+2i)*(1-i)">Complex</button>
+                <button class="btn tiny" data-solve-template="p=12, s=7">Diamond</button>
+                <button class="btn tiny" data-solve-template="vertex=(2,3), point=(0,7)">Vertex Form</button>
+                <button class="btn tiny" data-solve-template="det([[1,2],[3,4]])">Matrix det</button>
+                <button class="btn tiny" data-solve-template="diff(x^3 + 2x)">Derivative</button>
+              </div>
+              <div class="solver-actions">
+                <button class="btn primary" id="solveBtn">Solve</button>
+                <span style="font-family:var(--mono);font-size:10.5px;color:#7f92b0;align-self:center">
+                  Ctrl + Enter · or just type — it auto-solves
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <div class="solver-pane">
+            <div class="solver-pane-head">
+              <h3>Steps &amp; Results</h3><span class="spacer"></span>
+              <span id="solverStatus" style="font-family:var(--mono);font-size:10.5px;color:#7f92b0">idle</span>
+            </div>
+            <div class="solver-body">
+              <div id="solverOutput">
+                <div class="solver-placeholder">Pick a template or start typing — the solver detects the problem type automatically.</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="matrixPanel">
+        <div class="matrix-card">
+          <h3>Matrix & Linear Algebra Console</h3>
+          <p>Evaluate <code>det([[1,2],[3,4]])</code>, <code>inv([[2,0],[0,4]])</code>, <code>eig([[2,1],[1,2]])</code>.</p>
+          <textarea id="matrixInput" spellcheck="false">det([[1,2],[3,4]])</textarea>
+          <div class="matrix-actions">
+            <button class="btn primary" id="matrixEvalBtn">Evaluate</button>
+            <button class="btn tiny" data-matrix-template="det([[1,2],[3,4]])">det</button>
+            <button class="btn tiny" data-matrix-template="inv([[2,0],[0,4]])">inv</button>
+            <button class="btn tiny" data-matrix-template="eig([[2,1],[1,2]])">eig</button>
+            <button class="btn tiny" data-matrix-template="transpose([[1,2,3],[4,5,6]])">transpose</button>
+            <button class="btn tiny" data-matrix-template="trace([[1,2],[3,4]])">trace</button>
+          </div>
+          <div id="matrixOutput"></div>
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <footer id="statusbar">
+    <span><b id="statusMode">2D</b></span><span class="sep"></span>
+    <span id="statusCoords">x = 0.000 · y = 0.000</span><span class="sep"></span>
+    <span id="statusFps">— FPS</span><span class="sep"></span>
+    <span id="statusDpr">DPR 1</span>
+    <span class="spacer"></span>
+    <span id="statusQuality">Balanced</span>
+  </footer>
+</div>
+
+<div id="helpOverlay" role="dialog" aria-modal="true" aria-label="Keyboard shortcuts">
+  <div class="help-card">
+    <h2>Desktop Shortcuts</h2>
+    <p>ApexCalc is built for mouse + keyboard precision. Close with <kbd>Esc</kbd>.</p>
+    <div class="kbd-grid">
+      <div><span>Undo / Redo</span><span><kbd>Ctrl</kbd>+<kbd>Z</kbd> / <kbd>Ctrl</kbd>+<kbd>Y</kbd></span></div>
+      <div><span>Command palette</span><span><kbd>Ctrl</kbd>+<kbd>K</kbd></span></div>
+      <div><span>Reset view</span><kbd>R</kbd></div>
+      <div><span>Precision pan</span><kbd>← ↑ → ↓</kbd></div>
+      <div><span>Delete selected expression</span><kbd>Delete</kbd></div>
+      <div><span>Switch 2D / 3D / Complex / Matrix</span><span><kbd>2</kbd> <kbd>3</kbd> <kbd>C</kbd> <kbd>M</kbd></span></div>
+      <div><span>Auto Solver</span><kbd>S</kbd></div>
+      <div><span>Toggle help</span><kbd>?</kbd></div>
+    </div>
+  </div>
+</div>
+
+<div id="commandPalette" role="dialog" aria-modal="true" aria-label="Command palette">
+  <div class="palette-card">
+    <input id="paletteInput" placeholder="Type a command…" autocomplete="off">
+    <div id="paletteResults"></div>
+  </div>
+</div>
+
+<div id="toastHost" aria-live="polite"></div>
+
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

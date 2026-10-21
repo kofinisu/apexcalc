@@ -1,0 +1,23 @@
+:root{
+  --bg:#f5f7fb; --panel:#ffffff; --panel-2:#eef2f8; --line:#d7dfe9;
+  --text:#101827; --muted:#5f7089; --accent:#0891b2; --accent-2:#7c3aed;
+}
+body{background:var(--bg);color:var(--text)}
+#topbar{background:linear-gradient(180deg,#ffffff,#eef2f8);border-bottom-color:var(--line)}
+#sidebar{background:linear-gradient(180deg,#ffffff,#f0f3f8);border-right-color:var(--line)}
+#statusbar{background:#eef2f8;color:#5f7089}
+#statusbar b{color:#101827}
+.tab{color:#5f7089}
+.tab:hover{color:var(--text);background:#e2e9f2}
+.tab.active{background:linear-gradient(180deg,#dbeafe,#bfdbfe);color:#0f172a}
+.expr-card{background:linear-gradient(180deg,#ffffff,#f0f3f8);border-color:#d7dfe9}
+.expr-card:hover{border-color:#94a3b8}
+.expr-type,.expr-input,.side-panels,details.panel{background:#ffffff;color:var(--text);border-color:#d7dfe9}
+#c2d,#view3d,#workspace{background:#f5f7fb}
+#matrixPanel{background:radial-gradient(1200px 600px at 50% 0%,#e6eef8,#f5f7fb 70%)}
+.matrix-card{background:linear-gradient(180deg,#ffffff,#f0f3f8);border-color:#d7dfe9}
+#matrixInput,#matrixOutput{background:#ffffff;color:var(--text);border-color:#d7dfe9}
+.solver-pane,.solver-pane-head,.solver-section,.solver-answer{background:#ffffff;border-color:#d7dfe9;color:var(--text)}
+#solverInput{background:#ffffff;color:var(--text);border-color:#d7dfe9}
+.help-card,.palette-card{background:linear-gradient(180deg,#ffffff,#f0f3f8);border-color:#d7dfe9}
+.help-card p{color:#5f7089}
